@@ -1,13 +1,8 @@
 from litestar import Litestar, get
+from src.posts.routes import PostController
 
-
-@get('/')
+@get("/")
 async def index() -> dict:
-    return {
-        "message" :"Hello World"
-    }
+    return {"message": "Hello World"}
 
-
-app = Litestar(
-    route_handlers=[index]
-)
+app = Litestar(route_handlers=[index, PostController])

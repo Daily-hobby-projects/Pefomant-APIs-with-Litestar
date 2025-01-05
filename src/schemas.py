@@ -5,7 +5,11 @@ from typing import Optional
 import uuid
 
 
-class StatusEnum(Enum):
+class PostStatusEnum(Enum):
+    DRAFT = "draft"
+    PUBLISHED = "published"
+
+class CommentStatusEnum(Enum):
     DRAFT = "draft"
     PUBLISHED = "published"
 
@@ -14,7 +18,7 @@ class PostSchema:
     uid: uuid.UUID
     title: str
     content: str
-    status: StatusEnum
+    status: PostStatusEnum
     date_created: datetime
     date_updated: Optional[datetime]
     
@@ -22,4 +26,4 @@ class PostSchema:
 class PostCreateSchema:
     title: str
     content: str
-    status: Optional[StatusEnum] = StatusEnum.DRAFT
+    status: Optional[PostStatusEnum] = PostStatusEnum.DRAFT

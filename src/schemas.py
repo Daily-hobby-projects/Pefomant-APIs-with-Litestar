@@ -15,7 +15,7 @@ class CommentStatusEnum(Enum):
 
 @dc.dataclass
 class PostSchema:
-    uid: uuid.UUID
+    id: uuid.UUID
     title: str
     content: str
     status: PostStatusEnum

@@ -1,6 +1,6 @@
 from litestar import Litestar, get
 from src.posts.routes import PostController
-from src.db import init_db
+from src.db import create_session, init_db
 
 @get("/")
 async def index() -> dict:
@@ -8,5 +8,8 @@ async def index() -> dict:
 
 app = Litestar(
     route_handlers=[index, PostController],
-    lifespan=[init_db]
+    lifespan=[init_db],
+    dependencies={
+        "session": create_session
+    }
 )

@@ -1,12 +1,10 @@
 from litestar import Controller
-from datetime import datetime
 import dataclasses as dc
 import uuid
 from litestar import get, post, put, delete, status_codes
 from litestar.exceptions import NotFoundException, InternalServerException
 from src.models import Post
-from src.posts.crud import delete_post_by_uid, find_post_or_404, list_posts, get_single_post, create_new_post, update_post_by_uid
-from src.data import posts
+from src.posts.crud import delete_post_by_uid, list_posts, get_single_post, create_new_post, update_post_by_uid
 from src.schemas import PostCreateSchema, PostSchema, PostStatusEnum
 from sqlalchemy.ext.asyncio import AsyncSession
 

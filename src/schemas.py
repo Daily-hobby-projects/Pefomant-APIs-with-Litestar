@@ -10,8 +10,8 @@ class PostStatusEnum(Enum):
     PUBLISHED = "published"
 
 class CommentStatusEnum(Enum):
-    DRAFT = "draft"
-    PUBLISHED = "published"
+    HIDDEN = "hidden"
+    PUBLIC = "public"
 
 @dc.dataclass
 class PostSchema:
@@ -24,6 +24,23 @@ class PostSchema:
     
 @dc.dataclass
 class PostCreateSchema:
-    title: str
-    content: str
+    title: Optional[str] = ""
+    content: Optional[str] = ""
     status: Optional[PostStatusEnum] = PostStatusEnum.DRAFT
+
+
+@dc.dataclass
+class CommentSchema:
+    id: uuid.UUID
+    username: str
+    content: str
+    status: str
+    date_created: datetime
+    date_updated: datetime
+    post_id: uuid
+
+@dc.dataclass
+class CommentCreateSchema:
+    username: Optional[str] = ""
+    content: Optional[str] = ""
+    status: CommentStatusEnum = CommentStatusEnum.PUBLIC

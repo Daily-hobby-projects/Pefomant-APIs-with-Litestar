@@ -45,7 +45,7 @@ class CommentController(Controller):
         new_comment = await create_comment(session, post_id=post_uid, data=data_dict)
         return serialize_comment(new_comment)
 
-    @put("/posts/comments/{comment_uid:uuid}")
+    @put("/posts/{post_uid:uuid}/comments/{comment_uid:uuid}")
     async def edit_comment(
         self, session: AsyncSession, comment_uid: uuid.UUID, data: CommentCreateSchema
     ) -> CommentSchema:
@@ -58,7 +58,7 @@ class CommentController(Controller):
 
         return serialize_comment(updated_comment)
 
-    @delete("/posts/comments/{comment_uid:uuid}")
+    @delete("/posts/{post_uid:uuid}/comments/{comment_uid:uuid}")
     async def delete_comment(
         self, session: AsyncSession, comment_uid: uuid.UUID
     ) -> None:

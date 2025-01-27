@@ -21,6 +21,16 @@ class PostSchema:
     status: PostStatusEnum
     date_created: datetime
     date_updated: Optional[datetime]
+
+@dc.dataclass
+class PostCommentSchema:
+    id: uuid.UUID
+    title: str
+    content: str
+    status: str
+    date_created: datetime
+    date_updated: Optional[datetime]
+    comments: list["CommentSchema"]
     
 @dc.dataclass
 class PostCreateSchema:

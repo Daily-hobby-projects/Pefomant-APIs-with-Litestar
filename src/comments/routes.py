@@ -33,6 +33,8 @@ class CommentController(Controller):
         """Get post comments"""
         comments = await read_all_post_comments(session, post_id=post_uid)
 
+        print("comment: {}".format(comments))
+
         return [serialize_comment(c) for c in comments]
 
     @post("/posts/{post_uid:uuid}/comments")

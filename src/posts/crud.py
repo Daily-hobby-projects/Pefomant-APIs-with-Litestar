@@ -32,7 +32,7 @@ async def get_single_post(session: AsyncSession, post_uid: uuid.UUID) -> Post:
     """get single post"""
     query = select(Post).where(Post.id == post_uid)
     result = await session.execute(query)
-    return result.scalars().one()
+    return result.scalars().one_or_none()
 
 
 async def create_new_post(session: AsyncSession, data: dict) -> Post:
@@ -49,6 +49,9 @@ async def create_new_post(session: AsyncSession, data: dict) -> Post:
 async def update_post_by_uid(session: AsyncSession, post_uid: uuid.UUID, data: str) -> Post:
     post_to_update = await get_single_post(session, post_uid)
 
+    if post_to_update is None:
+        return None
+
     for k, v in data.items():
         if hasattr(post_to_update, k):
             setattr(post_to_update, k, v)
@@ -60,8 +63,10 @@ async def update_post_by_uid(session: AsyncSession, post_uid: uuid.UUID, data: s
 async def delete_post_by_uid(session: AsyncSession, post_uid: uuid.UUID) -> Post:
     post_to_delete = await get_single_post(session, post_uid)
 
+    if post_to_delete is None:
+        return False
     await session.delete(post_to_delete)
 
     await session.commit()
 
-    return None
+    return True

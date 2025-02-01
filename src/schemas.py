@@ -27,7 +27,7 @@ class PostCommentSchema:
     id: uuid.UUID
     title: str
     content: str
-    status: str
+    status: PostStatusEnum
     date_created: datetime
     date_updated: Optional[datetime]
     comments: list["CommentSchema"]
@@ -44,13 +44,13 @@ class CommentSchema:
     id: uuid.UUID
     username: str
     content: str
-    status: str
+    status: CommentStatusEnum
     date_created: datetime
     date_updated: datetime
     post_id: uuid
 
 @dc.dataclass
 class CommentCreateSchema:
-    username: Optional[str] = ""
-    content: Optional[str] = ""
+    username: str 
+    content: str 
     status: CommentStatusEnum = CommentStatusEnum.PUBLIC

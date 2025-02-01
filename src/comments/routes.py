@@ -1,6 +1,7 @@
 import uuid
 import dataclasses
-from litestar import Controller, get, post, put, delete
+from litestar import Controller, get, post, put, delete, status_codes
+from litestar.exceptions import NotFoundException, InternalServerException
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.comments.crud import (
     create_comment,
@@ -58,6 +59,11 @@ class CommentController(Controller):
             session=session, comment_id=comment_uid, data=data_dict
         )
 
+        if not updated_comment:
+            raise NotFoundException(
+                detail="Comment not found", status_code=status_codes.HTTP_404_NOT_FOUND
+            )
+
         return serialize_comment(updated_comment)
 
     @delete("/posts/{post_uid:uuid}/comments/{comment_uid:uuid}")
@@ -65,5 +71,9 @@ class CommentController(Controller):
         self, session: AsyncSession, comment_uid: uuid.UUID
     ) -> None:
         """Delete comment"""
-        await delete_comment_by_uid(session, comment_id=comment_uid)
+        comment_deleted = await delete_comment_by_uid(session, comment_id=comment_uid)
+        if not comment_deleted:
+            raise NotFoundException(
+                detail="Comment not found", status_code=status_codes.HTTP_404_NOT_FOUND
+            )
         return None
